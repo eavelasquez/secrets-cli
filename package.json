@@ -7,15 +7,23 @@
     "lint": "standard --fix",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eavelasquez/secrets-cli.git"
+  },
   "keywords": [],
   "author": "Esteban Velásquez <eavc.30@gmail.com>",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/eavelasquez/secrets-cli/issues"
+  },
+  "homepage": "https://github.com/eavelasquez/secrets-cli#readme",
   "dependencies": {
     "bcrypt": "^4.0.1",
     "minimist": "^1.2.5",
-    "sqlite3": "^4.1.1"
+    "sqlite3": "^4.2.0"
   },
   "devDependencies": {
-    "standard": "^14.3.2"
+    "standard": "^14.3.4"
   }
 }

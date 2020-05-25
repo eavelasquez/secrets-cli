@@ -2,11 +2,11 @@
 'use strict'
 
 const minimist = require('minimist')
-const { createDB } = require('./lib/db')
+const { createDb } = require('./lib/db')
 const argv = minimist(process.argv.slice(2))
 
 async function main () {
-  const db = await createDB()
+  const db = await createDb()
   const command = argv._.shift()
 
   switch (command) {
@@ -14,18 +14,21 @@ async function main () {
       try {
         const { user, pass } = argv
         await db.createUser(user, pass)
-        console.info(`${user} created`)
+        console.info(`user: ${user} created`)
       } catch (err) {
-        throw new Error('Cannot create user ')
+        throw new Error('Can not create user')
       }
       break
     case 'users:list':
       try {
         const results = await db.listUsers()
-        results.users.forEach(u => console.log(u.user))
+        if (!results || !results.users || !results.users.length) return console.log('No users found')
+        results.users.forEach(u => {
+          console.log(`${u.user}`)
+        })
         console.log(`\tTotal: ${results.count}`)
       } catch (err) {
-        throw new Error('Cannot list user')
+        throw new Error('Can not list users')
       }
       break
     case 'secrets:create':
@@ -34,51 +37,52 @@ async function main () {
         await db.createSecret(user, name, value)
         console.log(`secret: ${name} created`)
       } catch (err) {
-        throw new Error('Cannot create secret')
+        throw new Error('Can not create secret')
       }
       break
     case 'secrets:list':
       try {
         const { user } = argv
         const secrets = await db.listSecrets(user)
-        secrets.forEach(s => console.log(`- ${s.name}`))
+        secrets.forEach(s => {
+          console.log(`- ${s.name}`)
+        })
       } catch (err) {
-        throw new Error('Cannot list secrets')
+        throw new Error('Can not list secrets')
       }
       break
     case 'secrets:get':
       try {
         const { user, name } = argv
         const secret = await db.getSecret(user, name)
-        if (!secret) return console.log(`secret ${name} not found`)
+        if (!secret) return console.log(`secret: ${name} not found`)
         console.log(`- ${secret.name} = ${secret.value}`)
       } catch (err) {
-        throw new Error('Cannot get secret')
+        throw new Error('Can not get secret')
       }
       break
     case 'secrets:update':
       try {
         const { user, name, value } = argv
         await db.updateSecret(user, name, value)
-        console.log(`secret ${name} updated`)
+        console.log(`secret: ${name} updated`)
       } catch (err) {
-        console.log(err);
-        throw new Error('Cannot update secret')
+        throw new Error('Can not update secret')
       }
       break
     case 'secrets:delete':
       try {
         const { user, name } = argv
         await db.deleteSecret(user, name)
-        console.log(`secret ${name} deleted`);
+        console.log(`secret: ${name} deleted`)
       } catch (err) {
-        throw new Error('Cannot delete secret')
+        throw new Error('Can not delete secret')
       }
       break
     default:
-      console.error(`command not found: ${command}`)
+      console.error(`> command not found: "${command}"`)
       break
   }
 }
 
-main().catch(err => console.log(err))
+main().catch(err => console.error(`> ${err}`))
