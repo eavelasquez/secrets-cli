@@ -1,10 +1,9 @@
 'use strict'
 
 const path = require('path')
-const bcrypt = require('bcrypt')
+const { hashPassword } = require('./crypto')
 const { Database } = require('sqlite3').verbose()
 
-const saltRounds = 5
 const client = new Database(path.join(__dirname, '..', 'secrets.db'))
 const queries = {
   tableUsers: `
@@ -50,7 +49,7 @@ async function createDb () {
 }
 
 async function createUser (user, pass) {
-  const securePass = await bcrypt.hash(pass, saltRounds)
+  const securePass = hashPassword(pass)
   return new Promise((resolve, reject) => {
     const stmt = client.prepare('INSERT INTO users VALUES (?, ?);')
     stmt.run(user, securePass)
