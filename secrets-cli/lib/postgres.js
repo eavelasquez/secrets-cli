@@ -1,7 +1,7 @@
 'use strict'
 
 const { Client } = require('pg')
-const { hashPassword, comparePassword, generateRandomKey } = require('./crypto')
+const { hashPassword, comparePassword, generateRandomKey, generateKey, encrypt, decrypt } = require('./crypto')
 
 const dbUrl = process.env.DB_URL
 
@@ -15,7 +15,7 @@ const queries = {
     CREATE TABLE IF NOT EXISTS users (
       username   text PRIMARY KEY,
       password   text NOT NULL,
-      random_key text NOT NULL
+      randomkey text NOT NULL
     );
   `,
   tableSecrets: `
@@ -48,21 +48,13 @@ async function createDb () {
 }
 
 async function authenticate (username, password) {
-  const res = await client.query(`
-    SELECT username AS user, password AS pass
-    FROM users
-    WHERE username = $1
-  `, [username])
-
-  if (!res || !res.rows || !res.rows[0]) return false
-
-  const hashedPassword = res.rows[0].pass
-  return await comparePassword(password, hashedPassword)
+  const user = await getAuthenticatedUser(username, password)
+  return user !== null
 }
 
-async function getAuthenticatedUser () {
+async function getAuthenticatedUser (username, password) {
   const res = await client.query(`
-    SELECT username AS user, password AS pass, random_key
+    SELECT username AS user, password AS pass, randomkey
     FROM users
     WHERE username = $1
   `, [username])
@@ -76,13 +68,14 @@ async function getAuthenticatedUser () {
   if (await comparePassword(password, hashedPassword)) {
     return user
   }
+  await client.end()
   return null
 }
 
 async function createUser (username, password) {
   await client.query(`
     INSERT INTO users VALUES ($1, $2, $3)
-  `, [username, await hashPassword(password)], generateRandomKey())
+  `, [username, await hashPassword(password), generateRandomKey()])
   await client.end()
 }
 
@@ -95,8 +88,14 @@ async function listUsers () {
   }
 }
 
-async function createSecret (user, name, value) {
-  await client.query('INSERT INTO secrets VALUES ($1, $2, $3)', [user, name, value])
+async function createSecret (username, pass, name, value) {
+  const user = await getAuthenticatedUser(username, pass)
+  if (!user) return
+
+  const randomKey = user.randomkey
+  const secretKey = generateKey(pass)
+  const encrypted = encrypt(value, secretKey, randomKey)
+  await client.query('INSERT INTO secrets VALUES ($1, $2, $3)', [username, name, encrypted])
   await client.end()
 }
 
@@ -106,18 +105,27 @@ async function listSecrets (user) {
   return res.rows
 }
 
-async function getSecret (user, name) {
+async function getSecret (username, pass, name) {
   const res = await client.query(`
     SELECT name, value
     FROM secrets
     WHERE username = $1 AND name = $2
-  `, [user, name]
+  `, [username, name]
   )
+
+  const user = await getAuthenticatedUser(username, pass)
+  if (!user) return
+
+  if (!res.rows.length > 0) return
+  const secret = res.rows[0]
+  const secretKey = generateKey(pass)
+  const randomKey = user.randomkey
+  const decrypted = decrypt(secret.value, secretKey, randomKey)
+
+  secret.value = decrypted
+
   await client.end()
-  if (res.rows.length <= 0) {
-    return null
-  }
-  return res.rows[0]
+  return secret
 }
 
 async function updateSecret (user, name, value) {

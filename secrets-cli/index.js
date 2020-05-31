@@ -22,7 +22,6 @@ async function main () {
         await db.createUser(user, pass)
         console.info(`user: ${user} created`)
       } catch (err) {
-        console.log(err)
         throw new Error('Can not create user')
       }
       break
@@ -45,10 +44,9 @@ async function main () {
         const isAuth = await db.authenticate(user, pass)
         if (!isAuth) throw new Error('Invalid user or password')
 
-        await db.createSecret(user, name, value)
+        await db.createSecret(user, pass, name, value)
         console.log(`secret: ${name} created`)
       } catch (err) {
-        console.log(err)
         throw new Error('Can not create secret')
       }
       break
@@ -75,10 +73,11 @@ async function main () {
         const isAuth = await db.authenticate(user, pass)
         if (!isAuth) throw new Error('Invalid user or password')
 
-        const secret = await db.getSecret(user, name)
+        const secret = await db.getSecret(user, pass, name)
         if (!secret) return console.log(`secret: ${name} not found`)
         console.log(`- ${secret.name} = ${secret.value}`)
       } catch (err) {
+        console.log(err)
         throw new Error('Can not get secret')
       }
       break
