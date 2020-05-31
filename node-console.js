@@ -21,3 +21,17 @@ async function updateUser (user) {
   await user.save()
 }
 db.User.findByPk(1).then(updateUser).catch(console.error)
+
+// create a secret
+const secret = db.Secret.build({ username: 'nicole', name: 'gmail', value: 'this is my secret' })
+
+// save a secret
+secret.save().then(console.log).catch(console.error)
+
+// show user from secret
+secret.getUser().then(console.log).catch(console.error)
+
+// get secrets from user
+user.getSecrets().then(console.log).catch()
+
+db.Secret.findByPk(1).then(s => s.getUser().then(console.log)).catch(console.error)
