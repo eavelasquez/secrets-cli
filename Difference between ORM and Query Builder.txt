@@ -1,0 +1,51 @@
+Difference between ORM and Query Builder
+ORM -> Permite hacer un mapeo de datos
+
+Query Builder -> Utilizar abstracciónes de lenguajes de programación
+que me retorna una consulta SQL
+
+
+Driver Native
+
+Performance -> Se le entrega toda la carga de la base de datos
+Toda la lógica de dialectos y creación consultas. Facilita salvar
+tiempo de desarrollo, pero posiblemente se sacrifique flexibilidad y
+performance. Dependiendo de la base de datos, se toma la decisión.
+
+Si se está trabajando con una base de datos avanzada, con queries complejos o
+específicos, es mejor usar un driver nativo. Una implementación con mejor rendimiento.
+
+Leer ventajas y desventajas al usar un ORM.
+
+Ejemplos:
+-> Sequelize: https://sequelize.org/
+-> TypeORM: https://typeorm.io/#/
+-> Bookshelf.js: https://bookshelfjs.org/
+-> Sails - Waterline: https://sailsjs.com/documentation/reference/waterline-orm
+-> Objection.js: https://vincit.github.io/objection.js/
+
+Other references
+Sails - Blueprint API: https://sailsjs.com/documentation/concepts/blueprints
+Tedious - SQL Server: https://tediousjs.github.io/tedious/
+
+Query Builder:
+knex.js -> http://knexjs.org/
+
+Operative System: Pop!_OS
+
+Streaming
+-> streamlabs
+-> stream deck
+-> pretzel rocks: https://www.pretzel.rocks/
+
+migrations: es un script que representa la creación de la base de datos y la destrucción de la misma.
+Definir los modelos en base de datos. Se crean migraciones diferenciales para ser aplicadas en base de datos de producción
+desarrollo o test.
+Las migraciones permiten manejar los diferentes estados en los que la tabla ha cambiado durante el tiempo.
+
+seeders: scripts que permiten alimentar la base de datos con datos de prueba y datos iniciales.
+Una seeder que llene una tabla con todos los países del mundo.
+
+npx: es una herramienta de npm para ejecutar comandos. Por ejemplo, npx sequelize.
+
+sequelize import schema from db: https://github.com/sequelize/sequelize-auto
