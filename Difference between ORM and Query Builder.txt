@@ -49,3 +49,15 @@ Una seeder que llene una tabla con todos los países del mundo.
 npx: es una herramienta de npm para ejecutar comandos. Por ejemplo, npx sequelize.
 
 sequelize import schema from db: https://github.com/sequelize/sequelize-auto
+
+SequelizeMeta: almacena las migraciones que se han aplicado a la base de datos. ¿Qué migraciones se han aplicado?
+
+Consideraciones de migración de tecnologías
+-> Performance
+-> ¿Por qué se está haciendo? ¿Qué solucionará?
+-> ¿Me resolverá los problemas?
+
+PostGIS -> Geolocalización con PostgreSQL.
+
+Casos de uso
+Una notificación cada dos semanas para verificar si se ha actualizado la contraseña.
