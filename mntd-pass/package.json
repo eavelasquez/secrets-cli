@@ -8,6 +8,8 @@
   },
   "bugs": "https://github.com/nodejs/mntd-pass/issues",
   "dependencies": {
+    "@mntd/services": "file:packages/mntd-services",
+    "@mntd/crypto": "file:packages/mntd-crypto",
     "@mntd/db": "file:packages/mntd-db",
     "@oclif/command": "^1.6.1",
     "@oclif/config": "^1.15.1",
