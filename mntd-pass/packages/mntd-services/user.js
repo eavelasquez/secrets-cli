@@ -5,7 +5,7 @@ const {comparePassword} = require('@mntd/crypto')
 
 module.exports = {
   // eslint-disable-next-line node/no-unsupported-features/es-syntax
-  async createSecret(username, password) {
+  async createUser(username, password) {
     return db.User.create({
       username,
       password,

@@ -83,3 +83,19 @@ Capa de la base de datos
 Capa de controladores o servicios
 
 Patrones de diseño
+
+Buena práctica de publicación. Publicar librerías independientes.
+
+Redis: https://redis.io/commands
+Base de datos de caché y caché distribuido. Porque puedo tener múltiples procesos conectados a la misma
+instancia de Redis.
+Es una base de datos de clave - valor.
+
+PUB/SUB with Redis y Katka
+
+Clients of Redis
+https://www.npmjs.com/package/redis
+OR
+https://www.npmjs.com/package/ioredis # Nativo
+
+Una extensión para navegadores que consuma los datos de la APP a través de una API. (SecretsCLI)
