@@ -61,3 +61,25 @@ PostGIS -> Geolocalización con PostgreSQL.
 
 Casos de uso
 Una notificación cada dos semanas para verificar si se ha actualizado la contraseña.
+
+gpg -> Firmar commits, con una llave de encripción
+
+Oclif
+
+- npx oclif multi mntd-pass
+- npm link .
+- mntd-pass hello -n name
+- mntd-pass hello --help
+
+lerna
+
+- npx lerna --help
+- npx lerna init
+- npx lerna ls
+- npx lerna bootstrap # linkeo e instalación de las subdependencias
+
+Capa de la CLI
+Capa de la base de datos
+Capa de controladores o servicios
+
+Patrones de diseño

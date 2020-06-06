@@ -1,0 +1,54 @@
+{
+  "name": "mntd-pass",
+  "description": "A secret manager for your CLI",
+  "version": "1.0.0",
+  "author": "Esteban Velásquez <eavc.30@gmail.com>",
+  "bin": {
+    "mntd-pass": "./bin/run"
+  },
+  "bugs": "https://github.com/nodejs/mntd-pass/issues",
+  "dependencies": {
+    "@mntd/db": "file:packages/mntd-db",
+    "@oclif/command": "^1.6.1",
+    "@oclif/config": "^1.15.1",
+    "@oclif/plugin-help": "^3.1.0",
+    "cli-ux": "^5.4.6"
+  },
+  "devDependencies": {
+    "@oclif/dev-cli": "^1.22.2",
+    "eslint": "^5.16.0",
+    "eslint-config-oclif": "^3.1.0",
+    "globby": "^10.0.2",
+    "lerna": "^3.22.0"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "/bin",
+    "/npm-shrinkwrap.json",
+    "/oclif.manifest.json",
+    "/src"
+  ],
+  "homepage": "https://github.com/nodejs/mntd-pass",
+  "keywords": [
+    "oclif"
+  ],
+  "license": "MIT",
+  "main": "src/index.js",
+  "oclif": {
+    "commands": "./src/commands",
+    "bin": "mntd-pass",
+    "plugins": [
+      "@oclif/plugin-help"
+    ]
+  },
+  "repository": "nodejs/mntd-pass",
+  "scripts": {
+    "postpack": "rm -f oclif.manifest.json",
+    "posttest": "eslint .",
+    "prepack": "oclif-dev manifest && oclif-dev readme",
+    "test": "echo NO TESTS",
+    "version": "oclif-dev readme && git add README.md"
+  }
+}
