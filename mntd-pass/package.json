@@ -21,7 +21,8 @@
     "eslint": "^5.16.0",
     "eslint-config-oclif": "^3.1.0",
     "globby": "^10.0.2",
-    "lerna": "^3.22.0"
+    "lerna": "^3.22.0",
+    "standard": "^14.3.4"
   },
   "engines": {
     "node": ">=8.0.0"
@@ -48,7 +49,8 @@
   "repository": "nodejs/mntd-pass",
   "scripts": {
     "postpack": "rm -f oclif.manifest.json",
-    "posttest": "eslint .",
+    "lint": "npm run posttest",
+    "posttest": "standard --fix",
     "prepack": "oclif-dev manifest && oclif-dev readme",
     "test": "echo NO TESTS",
     "version": "oclif-dev readme && git add README.md"

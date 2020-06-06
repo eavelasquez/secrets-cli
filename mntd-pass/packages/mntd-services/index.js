@@ -5,5 +5,5 @@ const secretServices = require('./secret')
 
 module.exports = {
   userServices,
-  secretServices,
+  secretServices
 }

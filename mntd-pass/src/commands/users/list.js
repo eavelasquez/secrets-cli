@@ -1,13 +1,10 @@
-const {Command, flags} = require('@oclif/command')
+const { Command } = require('@oclif/command')
 
 class UsersListCommand extends Command {
-  async run() {}
+  async run () {}
 }
 
-UsersListCommand.description = `List a users
-...
-Extra documentation goes here
-`
+UsersListCommand.description = 'List a users'
 
 UsersListCommand.flags = {}
 

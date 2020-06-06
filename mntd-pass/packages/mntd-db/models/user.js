@@ -6,23 +6,23 @@ module.exports = (sequelize, DataTypes) => {
     username: DataTypes.STRING,
     password: DataTypes.STRING,
     fullName: DataTypes.STRING,
-    randomKey: DataTypes.STRING,
+    randomKey: DataTypes.STRING
   }, {
     underscored: true,
     tableName: 'users',
     hooks: {
       beforeCreate: async (user, options) => {
-        user.password = await hashPassword(user.password),
-        user.randomkey = await generateRandomKey(),
+        user.password = await hashPassword(user.password)
+        user.randomKey = await generateRandomKey()
       }
-    },
+    }
   })
   User.associate = function (models) {
     // associations can be defined here
     User.hasMany(models.Secret, {
       sourceKey: 'username',
       foreignKey: 'username',
-      as: 'secrets',
+      as: 'secrets'
     })
   }
   return User

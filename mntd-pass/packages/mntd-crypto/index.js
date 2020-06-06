@@ -6,16 +6,15 @@ const bcrypt = require('bcrypt')
 const algorithm = 'aes-256-cbc'
 const saltRounds = 5
 
-function hashPassword(pass) {
+function hashPassword (pass) {
   return bcrypt.hash(pass, saltRounds)
 }
 
-function comparePassword(pass, hash) {
-  const password = bcrypt.compare(pass, hash)
-  return password
+function comparePassword (pass, hash) {
+  return bcrypt.compare(pass, hash)
 }
 
-function encrypt(data, key, iv) {
+function encrypt (data, key, iv) {
   const cipher = crypto.createCipheriv(
     algorithm,
     Buffer.from(key, 'hex'),
@@ -26,7 +25,7 @@ function encrypt(data, key, iv) {
   return encrypted.toString('hex')
 }
 
-function decrypt(data, key, iv) {
+function decrypt (data, key, iv) {
   const decipher = crypto.createDecipheriv(
     algorithm,
     Buffer.from(key, 'hex'),
@@ -37,11 +36,11 @@ function decrypt(data, key, iv) {
   return decrypted.toString()
 }
 
-function generateRandomKey() {
+function generateRandomKey () {
   return crypto.randomBytes(16).toString('hex')
 }
 
-function generateKey(pass) {
+function generateKey (pass) {
   return crypto.createHash('sha256').update(pass).digest('hex')
 }
 
@@ -51,5 +50,5 @@ module.exports = {
   encrypt,
   decrypt,
   generateRandomKey,
-  generateKey,
+  generateKey
 }
