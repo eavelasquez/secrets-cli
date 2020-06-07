@@ -99,3 +99,10 @@ OR
 https://www.npmjs.com/package/ioredis # Nativo
 
 Una extensión para navegadores que consuma los datos de la APP a través de una API. (SecretsCLI)
+
+Return await es un antipatrón
+
+Symbol: es algo que será único.
+
+JSDocs - Documentar las clases
+Documentar las funcionalidades de la aplicación

@@ -5,7 +5,6 @@ const { Sequelize } = require('@mntd/db')
 const { CLIError } = require('@oclif/errors')
 const { Command } = require('@oclif/command')
 const { secretServices } = require('@mntd/services')
-const { AUTHENTICATED, isAuthenticated, authenticate } = require('@mntd/auth')
 
 class SecretsCreateCommand extends Command {
   async run () {
@@ -16,7 +15,7 @@ class SecretsCreateCommand extends Command {
       await this.config.runHook('authenticate', username)
 
       const value = await cli.prompt('Enter your secret', { type: 'mask' })
-      const secret = await secretServices.createSecret(username, password, name, value)
+      const secret = await secretServices.createSecret(username, name, value)
 
       this.log(`secret: ${secret.name} created for user ${username}`)
     } catch (error) {

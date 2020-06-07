@@ -26,3 +26,7 @@ HSET user username mntd # create hash
 HSET user fullname "MNTD" # add value to hash
 HEXISTS user fullname # exists value in hash
 HGETALL user # get all hash values
+
+git stash -u # hace stash de los archivos que no están en git
+
+npm prune # retira las dependencias que no se están utilizado
