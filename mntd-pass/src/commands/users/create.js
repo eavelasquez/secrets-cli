@@ -3,21 +3,26 @@
 const { cli } = require('cli-ux')
 const { Sequelize } = require('@mntd/db')
 const { Command } = require('@oclif/command')
+const { CLIError } = require('@oclif/errors')
 const { userServices } = require('@mntd/services')
 
 class UsersCreateCommand extends Command {
   async run () {
-    const { args } = this.parse(UsersCreateCommand)
-    const { username } = args
-    const password = await cli.prompt('Enter your password', { type: 'hide' })
     try {
-      const newUser = await userServices.createUser(username, password)
+      const { args } = this.parse(UsersCreateCommand)
+      const { username } = args
+
+      const fullName = await cli.prompt('Enter your full name')
+      const password = await cli.prompt('Enter your password', { type: 'hide' })
+
+      const newUser = await userServices.createUser(username, password, fullName)
       this.log(`user: ${newUser.username} created with id: ${newUser.id}`)
     } catch (error) {
+      this.log(error)
       if (error instanceof Sequelize.UniqueConstraintError) {
-        throw new TypeError('User already exists')
+        throw new CLIError('User already exists')
       } else {
-        throw new TypeError('Can not create user')
+        throw new CLIError('Can not create user')
       }
     }
   }

@@ -1,56 +1,53 @@
 'use strict'
 
 const db = require('@mntd/db')
-const { generateKey, encrypt, decrypt } = require('@mntd/crypto')
+const { getSecretKey } = require('@mntd/auth')
+const { encrypt, decrypt } = require('@mntd/crypto')
 
 module.exports = {
-  createSecret (user, pass, name, value) {
-    const secretKey = generateKey(pass)
-    const randomKey = user.randomkey
+  async createSecret (username, name, value) {
+    const user = await db.User.findOne({ where: { username } })
+
+    if (!user) throw new Error('User not found')
+
+    const secretKey = await getSecretKey(username)
+    const randomKey = user.randomKey
     const encrypted = encrypt(value, secretKey, randomKey)
 
-    return db.Secret.create({
-      username: user.username,
-      name,
-      value: encrypted
-    })
+    return db.Secret.create({ username, name, value: encrypted })
   },
 
   listSecrets (username) {
     return db.Secret.findAndCountAll({ where: { username } })
   },
 
-  // eslint-disable-next-line node/no-unsupported-features/es-syntax
-  async getSecret (user, pass, name) {
-    const secretKey = generateKey(pass)
+  async getSecret (username, name) {
+    const user = await db.User.findOne({ where: { username } })
+
+    if (!user) throw new Error('User not found')
+
+    const secretKey = await getSecretKey(username)
     const randomKey = user.randomkey
-    const secret = await db.Secret.findOne({
-      where: {
-        username: user.username,
-        name
-      }
-    })
+
+    const secret = await db.Secret.findOne({ where: { username, name } })
 
     if (!secret) return false
 
     const decrypted = decrypt(secret.value, secretKey, randomKey)
 
-    return {
-      // eslint-disable-next-line node/no-unsupported-features/es-syntax
-      ...secret.toJSON(),
-      // eslint-disable-next-line node/no-unsupported-features/es-syntax
-      ...{
-        value: decrypted
-      }
-    }
+    return { ...secret.toJSON(), ...{ value: decrypted } }
   },
 
-  updateSecret (user, pass, name, value) {
-    const secretKey = generateKey(pass)
+  async updateSecret (username, name, value) {
+    const user = await db.User.findOne({ where: { username } })
+
+    if (!user) throw new Error('User not found')
+
+    const secretKey = getSecretKey(username)
     const randomKey = user.randomkey
     const encrypted = encrypt(value, secretKey, randomKey)
 
-    return db.Secret.update({ value: encrypted }, { where: { username: user.username, name } })
+    return db.Secret.update({ value: encrypted }, { where: { username, name } })
   },
 
   deleteSecret (username, name) {

@@ -1,13 +1,14 @@
+'use strict'
+
 const { Command } = require('@oclif/command')
 
 class SecretsCommand extends Command {
-  async run () {}
+  async run () {
+    this._help()
+  }
 }
 
-SecretsCommand.description = `Describe the command here
-...
-Extra documentation goes here
-`
+SecretsCommand.description = 'Manage secrets by user'
 SecretsCommand.flags = {}
 
 module.exports = SecretsCommand

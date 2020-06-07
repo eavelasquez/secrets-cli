@@ -1,4 +1,5 @@
 'use strict'
+
 module.exports = (sequelize, DataTypes) => {
   const Secret = sequelize.define('Secret', {
     username: DataTypes.STRING,
@@ -9,7 +10,6 @@ module.exports = (sequelize, DataTypes) => {
     tableName: 'secrets'
   })
   Secret.associate = function (models) {
-    // associations can be defined here
     Secret.belongsTo(models.User, {
       targetKey: 'username',
       foreignKey: 'username',

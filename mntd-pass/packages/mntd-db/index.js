@@ -1,7 +1,8 @@
-const Sequelize = require('sequelize')
+'use strict'
 
-module.exports = function () {
-  return 42
-}
+const db = require('./models')
+const Redis = require('ioredis')
 
-module.exports.Sequelize = Sequelize
+db.createRedisClient = () => new Redis()
+
+module.exports = db

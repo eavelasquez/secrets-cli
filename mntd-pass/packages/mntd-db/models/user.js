@@ -1,12 +1,19 @@
 'use strict'
+
 const { hashPassword, generateRandomKey } = require('@mntd/crypto')
 
 module.exports = (sequelize, DataTypes) => {
   const User = sequelize.define('User', {
     username: DataTypes.STRING,
     password: DataTypes.STRING,
-    fullName: DataTypes.STRING,
-    randomKey: DataTypes.STRING
+    fullName: {
+      type: DataTypes.STRING,
+      field: 'full_name'
+    },
+    randomKey: {
+      type: DataTypes.STRING,
+      field: 'random_key'
+    }
   }, {
     underscored: true,
     tableName: 'users',
@@ -18,7 +25,6 @@ module.exports = (sequelize, DataTypes) => {
     }
   })
   User.associate = function (models) {
-    // associations can be defined here
     User.hasMany(models.Secret, {
       sourceKey: 'username',
       foreignKey: 'username',

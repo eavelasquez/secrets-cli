@@ -1,11 +1,12 @@
 const { Command } = require('@oclif/command')
 
 class UserCommand extends Command {
-  async run () {}
+  async run () {
+    this._help()
+  }
 }
 
-UserCommand.description = 'Describe the command here'
-
+UserCommand.description = 'Manage users'
 UserCommand.flags = {}
 
 module.exports = UserCommand

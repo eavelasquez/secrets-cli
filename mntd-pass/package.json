@@ -8,13 +8,15 @@
   },
   "bugs": "https://github.com/nodejs/mntd-pass/issues",
   "dependencies": {
-    "@mntd/services": "file:packages/mntd-services",
+    "@mntd/auth": "file:packages/mntd-auth",
     "@mntd/crypto": "file:packages/mntd-crypto",
     "@mntd/db": "file:packages/mntd-db",
+    "@mntd/services": "file:packages/mntd-services",
     "@oclif/command": "^1.6.1",
     "@oclif/config": "^1.15.1",
     "@oclif/plugin-help": "^3.1.0",
-    "cli-ux": "^5.4.6"
+    "cli-ux": "^5.4.6",
+    "clipboardy": "^2.3.0"
   },
   "devDependencies": {
     "@oclif/dev-cli": "^1.22.2",
@@ -41,6 +43,9 @@
   "main": "src/index.js",
   "oclif": {
     "commands": "./src/commands",
+    "hooks": {
+      "authenticate": "./src/hooks/auth/index.js"
+    },
     "bin": "mntd-pass",
     "plugins": [
       "@oclif/plugin-help"
